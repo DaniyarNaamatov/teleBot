@@ -1,0 +1,9 @@
+# created by virtualenv automatically
+*.env
+.idea
+venv
+pychache/
+*.py[cod]
+*$py.class
+*.so
+media
