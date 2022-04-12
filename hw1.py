@@ -2,6 +2,7 @@ from aiogram import Bot, Dispatcher, executor, types
 from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup, ParseMode
 from aiogram.types import KeyboardButton, ReplyKeyboardMarkup
 from decouple import config
+from asyncio import sleep
 
 import markup as nav
 import logging
@@ -277,6 +278,35 @@ async def pin(message: types.Message):
                 await message.reply('Команда должна быть ответом на сообщение!')
             else:
                 await bot.pin_chat_message(message.chat.id, message.message_id)
+
+
+@dp.message_handler(commands=['games'])
+async def dice_1(message: types.Message):
+    await bot.send_message(message.from_user.id, f"привет, {message.from_user.full_name}! Это игра в кости")
+
+
+    computer = await bot.send_dice(message.from_user.id)
+    computer = computer['dice'] ['value']
+    await sleep(5)
+
+    user = await bot.send_dice(message.from_user.id)
+    user = user['dice'] ['value']
+    await sleep(5)
+
+    if computer > user:
+        await bot.send_message(message.from_user.id, 'Ты проиграл')
+    elif computer < user:
+        await bot.send_message(message.from_user.id, 'Ты победил')
+    else:
+        await bot.send_message(message.from_user.id, 'Ничья')
+
+
+
+
+
+
+
+
 
 @dp.message_handler()
 async def game(message: types.Message):
