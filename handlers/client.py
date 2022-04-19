@@ -1,6 +1,8 @@
 from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 from aiogram import types, Dispatcher
-from config import bot, ADMIN
+from config import bot, ADMIN, dp
+import random
+
 
 
 
@@ -70,7 +72,8 @@ async def ban(message: types.Message):
     else:
         await message.answer("Это работает только в группах!")
 
-
+async def show_random_user(message: types.Message):
+    await bot.db.sql_command_random(message)
 
 
 def register_handlers_client(dp: Dispatcher):
@@ -78,3 +81,4 @@ def register_handlers_client(dp: Dispatcher):
     dp.register_message_handler(quiz_1, commands=["quiz"])
     dp.register_message_handler(mem, commands=['mem'])
     dp.register_message_handler(ban, commands=["ban"], commands_prefix="!/")
+    dp.register_message_handler(show_random_user, commands=["random"])
